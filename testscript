@@ -2658,7 +2658,7 @@ local Section = W:AddSection({
 })
 
 
-W:AddLabel("Script By LMNGAMING")
+W:AddLabel("Script By Heiskso")
 
 local Section = W:AddSection({
     Name = "Update"
