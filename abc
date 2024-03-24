@@ -13,14 +13,16 @@ local Window = getgenv().Window or Fluent:CreateWindow({
     Theme = "Dark",
     MinimizeKey = Enum.KeyCode.LeftControl -- Used when there's no MinimizeKeybind
 })
+
 local UiOrders = {"Main Farm","Stack Auto farm","Sub Farming","Status","Player-Status","Fruit","Local Player","Travel","Pvp-Visual","Raid-Material","RaceV4-Mirage","Sea Events","Shop","Setting","Webhook","Game-Server","One Click"}
 local TabCollections = {}
+
 local ElementsCollection = {}
 for _,Name in pairs(UiOrders) do
     ElementsCollection[Name] = {}
 end
 
-local UiInitialize = {
+local UiIntilize = {
     ["Main Farm"] = {
         {Mode="Label",Title="Only Turn On 1 Farm At The Same Time"},
         {Mode="Toggle",Title="Auto Katakuri",Description="Turn On Auto Kill Cake Prince And Auto Kill Dough King By Default",Args={"Katakuri","Enable"}},
@@ -35,7 +37,7 @@ local UiInitialize = {
                 getgenv().Setting["Kill Aura"].AnchorPosition = tostring(game.Players.LocalPlayer.Character.HumanoidRootPart.Position)
             end)
         end},
-        {Mode="Dropdown",Title="Distance From Anchor",Table = (function ()
+        {Mode="Dropdown",Title="Distace From Anchor",Table = (function ()
             local Table = {}
             for i=400,4000,400 do 
                 table.insert(Table,i)
@@ -50,7 +52,43 @@ local UiInitialize = {
         {Mode="Toggle",Title="Switch Sword When Low", Description = "Must Enable Use Sword", Args={"Mastery","Sword/Low"}},
         {Mode="Label",Title="Go To Setting To Select Skills"},
         {Mode="Toggle",Title="Mastery Farm",Description="Need Enable Auto Katakuri Or Bone", Args={"Mastery","Enable"}},
-        {Mode="Toggle",Title="Aimbot Camera",Description="Aimbot for Mastery Using Camera", Args={"Mastery","Camera"}},
-    },
-    -- Add more UI initialize sections as needed
+        {Mode="Toggle",Title="Aimbot Camera", Description = "Aimbot for Mastery Using Camera", Args={"Mastery","Camera"}},
+        {
+            Mode = "Dropdown",
+            Title = "Mastery Health",
+            Args = {"Mastery", "Health"},
+            Table = {20,25,30,35,40,45,50},
+            Default = (function ()
+                local Default = {20,25,30,35,40,45,50}
+                local Found = 1
+                if not table.find(Default,getgenv().Setting.Mastery.Health) then 
+                    getgenv().Setting.Mastery.Health = 30
+                else
+                    Found = table.find(Default,getgenv().Setting.Mastery.Health) 
+                end
+                return Found
+            end)(),
+            OnChange = function(value)
+                getgenv().Setting.Mastery.Health = tonumber(value)
+                SettingManager:Save()
+            end
+        },        
+        {Mode="Toggle",Title="Mastery Fruit / Gun", Description = "Default Is Fruit, Turning On = Using Gun, Must Enable Mastery Farm",Args = {"Mastery","Fruit/Gun"}},
+        {
+            Mode = "Toggle",
+            Title = "Disable Silent Aim",
+            Args = {"Pvp", "DisableSilentAim"},
+            OnChange = function(state)
+                getgenv().Setting.Pvp.DisableSilentAim = state
+                SettingManager:Save()
+            end
+        },
+        {Mode="Button",Title="Fps Boost",Callback = getgenv().LiteFpsBoost}
+    }
 }
+
+-- Add additional sections like ["Stack Auto farm"], ["Sub Farming"], etc.
+
+-- Make sure to complete the rest of your script according to your requirements.
+
+-- End of the fixed portion
