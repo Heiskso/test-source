@@ -1,6 +1,4 @@
-repeat wait()
-until getgenv().LoadUi and getgenv().IslandCaller and getgenv().SettingManager 
-local Title = "Heiskso Hub "
+local Title = "Heiskso Hub"
 local SubTitle = "True V2 dsc.gg/heiskso"
 local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/vinhuchi/rblx/main/FixedFluent.lua"))()
 local UiSetting = Fluent.Options
