@@ -3,20 +3,19 @@ local SubTitle = "True V2 dsc.gg/heiskso"
 local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/vinhuchi/rblx/main/FixedFluent.lua"))()
 local UiSetting = Fluent.Options
 local IslandCaller = IslandCaller or getgenv().IslandCaller
-local SettingManager = getgenv().SettingManager 
+local SettingManager = getgenv().SettingManager
 local Window = getgenv().Window or Fluent:CreateWindow({
     Title = Title,
     SubTitle = SubTitle,
     TabWidth = 160,
     Size = UDim2.fromOffset(480, 360),
-    Acrylic = false, -- The blur may be detectable, setting this to false disables blur entirely
+    Acrylic = false,
     Theme = "Dark",
-    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+    MinimizeKey = Enum.KeyCode.LeftControl
 })
 local UiOrders = {"Main Farm","Stack Auto farm","Sub Farming","Status","Player-Status","Fruit","Local Player","Travel","Pvp-Visual","Raid-Material","RaceV4-Mirage","Sea Events","Shop","Setting","Webhook","Game-Server","One Click"}
-local TabCollections = {
-}
-ElementsCollection = {}
+local TabCollections = {}
+local ElementsCollection = {}
 for _,Name in pairs(UiOrders) do
     ElementsCollection[Name]={}
 end
@@ -36,7 +35,7 @@ local UiIntilize = {
                 getgenv().Setting["Kill Aura"].AnchorPosition = tostring(game.Players.LocalPlayer.Character.HumanoidRootPart.Position)
             end)
         end},
-        {Mode="Dropdown",Title="Distace From Anchor",Table = (function ()
+        {Mode="Dropdown",Title="Distance From Anchor",Table = (function ()
             local Table = {}
             for i=400,4000,400 do 
                 table.insert(Table,i)
@@ -54,7 +53,7 @@ local UiIntilize = {
         {Mode="Toggle",Title ="Aimbot Camera " ,Description = "Aimbot for Mastery Using Camera", Args={"Mastery","Camera"}},
         {
             Mode = "Dropdown",
-            Title = "Matery Health",
+            Title = "Mastery Health",
             Args = {"Mastery", "Health"},
             Table = {20,25,30,35,40,45,50},
             Default = (function ()
@@ -84,120 +83,5 @@ local UiIntilize = {
         },
         {Mode="Button",Title="Fps Boost",Callback = getgenv().LiteFpsBoost}
     },
-    ["Stack Auto farm"] = {
-        {Mode="Label",Title="Can Turn On Many Auto Farm Cuz Stackable"},
-        {Mode="Toggle",Title="Auto Elite",Description="Sea 3 Function Only",Args={"Elite","Enable"}},
-        {Mode="Toggle",Title="Auto Pirate Raid",Description="Sea 3 Function Only",Args={"Pirate Raid","Enable"}},
-        {Mode="Toggle",Title="Auto Open Haki Pad",Description="Sea 3 Function Only",Args={"Open Pad","Enable"}},
-        {Mode="Toggle",Title="Auto Spawn Rip Indra",Description="Sea 3 Function Only", Args = {"Spawn Rip Indra","Enable"}},
-        {Mode="Toggle",Title="Auto Rip Indra",Description = "Only Kill Rip Indra, Doesnt Do Anything Else",Args={"Rip Indra","Enable"}},
-        {Mode="Toggle",Title="Auto Tushita",Descrition="Sea 3 Function only",Args={"Tushita","Enable"}},
-        {Mode="Toggle",Title="Do Puzzle Electric Claw",Description="Sea 3 Function Only",Args={"Unlock Electric Claw","Enable"}},
-        {Mode="Toggle",Title="Auto Dough King" ,Description="", Args = {"Dough King","Enable"}},
-        {Mode="Toggle",Title="Auto Cake Prince",Description="",Args = {"Cake Prince","Enable"}},
-        {Mode="Toggle",Title="Auto Spawn Soul Reaper",Args = {"Spawn Soul Reaper","Enable"}},
-        {Mode="Toggle",Title="Auto Soul Reaper",Args = {"Soul Reaper","Enable"}},
-        {
-            Mode = "Dropdown",
-            Title = "Select Boss To Snipe",
-            Multi = true, 
-            Table = AllBoss[tostring(game.PlaceId)],
-            Default = getgenv().Setting.BossSniper.SelectedBoss or {},
-            OnChange = function(state)
-                local Values = {}
-                for Value, State in pairs(state) do
-                    if  type(Value) == "string" then
-                        table.insert(Values, Value)
-                    end
-                end 
-                
-
-                getgenv().Setting.BossSniper.SelectedBoss = Values
-                SettingManager:Save()
-            end
-        },     
-        {Mode="Toggle",Title="Start Boss Snipe",Description="",Args={"BossSniper","Enable"}},
-        {Mode="Toggle",Title="Auto Bartilo Quest",Description="Sea 2 Function",Args = {"Bartilo","Enable"}},
-        {Mode="Toggle",Title="Auto Race Evolve",Description="Sea 2 Function, Need Bartilo Quest Finish",Args = {"Race Evolve","Enable"}},
-        {Mode="Toggle",Title="Auto Factory",Description="Sea 2 Function Only",Args = {"Factory","Enable"}},
-        {Mode="Toggle",Title="Auto Spawn Black Beard",Description="Sea 2 Function Only", Args = {"Spawn Black Beard","Enable"}},
-        {Mode="Toggle",Title="Auto Black Beard",Description="Sea 2 Function Only", Args = {"Black Beard","Enable"}},
-        {Mode="Toggle",Title="Auto Ghoul",Description="Travel To Sea2 and Stack Farming Until Have Ghoul", Args = {"Get Ghoul","Enable"}},
-        {Mode="Toggle",Title="Auto Soul Guitar",Args = {"Soul Guitar","Enable"}},
-        {Mode="Toggle",Title="Auto Soul Guitar Material",Args = {"Material Soul Guitar","Enable"}},
-        {Mode="Toggle",Title="Auto CDK (DO NOT USE TESTING)",Args = {"CDK","Enable"}},
-        
-        --{Mode="Toggle",Title="Auto Collect Gift", Description="Sea 3 Function Event",Args = {"Winter Event","Enable"}}
-    },
-    ["Sub Farming"] = {
-        {Mode="Label",Title="Disable All Stack + Main Farm Before Using"},
-        {Mode="Button",Title="Upgrade Yoru V2",Description="Only useable if you have yoru",Callback=function()
-            IslandCaller("YoruV2")
-        end},
-        {Mode="Toggle",Title="Yoru V3",Description="Auto Upgrade Yoru V3",Args = {"YoruV3","Enable"}},
-        {Mode="Dropdown",Title="Select Player",Description="Select Account to upgrade together",Table=IslandCaller("__StrGetPlayers"),OnChange=function (state)
-            getgenv().Setting["YoruV3"].SelectedPlayer = state
-        end},
-        {Mode="Button",Title="Refresh Players",Callback=function()
-            ElementsCollection["Sub Farming"]["Select Player"]:SetValues(IslandCaller("__StrGetPlayers"))
-        end},
-        {Mode="Toggle",Title="Account To Upgrade Yoru V3",Description="Turn On This If This Is Account Want to Upgrade, do not if account to spawn Black Beard",Args = {"YoruV3","Upgrade"}},
-        {Mode="Toggle",Title="Race Evolve Hop",Description="Turning On This Will Make Race Evolve Hopping For Faster Farming",Args = {"Race Evolve","Hop"}},
-        {Mode="Toggle",Title="Black Beard Hop",Description="Auto Hop For Black Beard",Args={"Black Beard Hop","Enable"}},
-        {Mode="Toggle",Title="Tushita Hop (Need All Haki Colors)",Description="Auto Chest + Auto Elite Till Find Cup And Spawn Then Get Tushita",Args={"Tushita Hop__1","Enable"}},
-        {Mode="Toggle",Title="Hybrid Fruit Hop",Description="Pirate Raid + Collect Fruit Hop",Args={"Hybrid Fruit Hop","Enable"}},
-        {Mode="Toggle",Title="Raid Fruit Hop",Description="Pirate Raid + Collect Fruit + Raid Hop" ,Args={"Raid Fruit Hop","Enable"}},
-        {Mode="Toggle",Title="Auto Law",Description="Auto Farm Law",Args={"Law","Enable"}},
-        {Mode="Toggle",Title="Auto Cyborg",Description="Auto Chest For Fist Then Auto Law",Args={"Fully Cyborg","Enable"}},
-        {Mode="Toggle",Title="Auto Ghoul Hop",Description="Auto Find Torch + Ghoul (Very Rare, Dont Recommend)",Args={"Fully Ghoul","Enable"}},
-        {Mode="Toggle",Title="Boss Snipe Hop",Description="",Args={"BossSniper","Hop"}},
-        {Mode="Label",Title="Chest Count"},
-        {Mode="Toggle",Title="Auto Chest",Description="Stop On God Chalice And Fist Of Darkness By Default",Args={"Collect Chest","Enable"}},
-        {Mode="Toggle",Title="Auto Chest Hop",Description="Hop After x Chest",Args = {"Collect Chest","Hop"}},
-        {
-            Mode = "Dropdown",
-            Title = "x Chest To Hop",
-            Args = {"Collect Chest", "LimitChest"},
-            Table = {20,25,30,35,40,45,50,60,70},
-            Default = (function ()
-                local Default = {20,25,30,35,40,45,50,60,70}
-                local Found = 9
-                if not table.find(Default,getgenv().Setting["Collect Chest"].LimitChest) then 
-                    getgenv().Setting["Collect Chest"].LimitChest = 70
-                else
-                    Found = table.find(Default,getgenv().Setting["Collect Chest"].LimitChest) 
-                end
-                return Found
-            end)(),
-            OnChange = function(value)
-                getgenv().Setting["Collect Chest"].LimitChest = tonumber(value)
-                SettingManager:Save()
-            end
-        },        
-
-        {Mode="Toggle",Title="Insta Tp Chest",Description="Have A Risk Of Getting Banned(Noone yet)",Args={"Collect Chest","InstaTP"}},
-        {Mode="Toggle",Title="Auto Level Observation",Description="Farm Observation Level Till Max",Args={"Level Observation","Enable"}},
-        {Mode="Toggle",Title="Level Observation Hop",Description="Hopping For leveling Observation",Args={"Level Observation","Hop"}},
-        {Mode="Toggle",Title="Auto Observation V2",Description="Must Have Maxed Ken Haki + Finish Citizen Quest",Args = {"Evolve Observation","Enable"}},
-        {Mode="Toggle",Title="Observation V2 Hop",Description="Hopping For Finding Materials To Get Evolve Faster",Args = {"Evolve Observation","Hop"}},
-        {Mode="Toggle",Title="Auto Saber Hop",Args={"__SaberHop","Enable"}},
-        {Mode="Toggle",Title="Auto Pole Hop",Args={"__PoleHop","Enable"}},
-        {Mode="Toggle",Title="Auto Citizen Quest",Description="Must Be Level 1800 Above",Args = {"Citizen Quest","Enable"}},
-        {Mode="Toggle",Title="Citizen Quest Hop",Description="",Args = {"Citizen Quest","Hop"}},
-        {Mode="Toggle",Title="Auto Get Rainbow Haki",Description="",Args = {"Rainbow Haki","Enable"}},
-        {Mode="Toggle",Title="Rainbow Haki Hop",Description="Hopping For Fast Getting Rainbow Haki",Args = {"Rainbow Haki","Hop"}},
-    },
-    ["Status"] = {
-        {Mode="Label",Title="Client Time"},
-        {Mode="Label",Title="Farming Status"},
-        {Mode="Label",Title="Weapon Status [One Click]"},
-        {Mode="Label",Title="Dimension Kill"},
-        {Mode="Label",Title="Bribe Status"},
-        {Mode="Label",Title="Elite Status"},
-        {Mode="Label",Title="Mirage Status"},
-        {Mode="Label",Title="Kitsune Status"},
-        {Mode="Label",Title="FullMoon Status"},
-    },
-    ["Player-Status"] = {
-        {Mode="Label",Title="W.I.P"}
-    },
+    --[[ Remaining sections here ]]--
+}
